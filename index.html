@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio — Computer Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Cormorant:ital,wght@1,300&display=swap" rel="stylesheet" />
+<style>
+  /* ── TOKENS ─────────────────────────────────────────────── */
+  :root {
+    --linen:     #f5f2ec;
+    --linen-mid: #ece8df;
+    --ink:       #111009;
+    --ink-soft:  #3a3830;
+    --ink-ghost: #9a9488;
+    --accent:    #1b2d4f;
+    --accent-lt: #2e4a7a;
+    --rule:      rgba(26,22,14,.12);
+    --serif:     'Cormorant Garamond', Georgia, serif;
+    --mono:      'DM Mono', 'Courier New', monospace;
+    --ease-out-expo: cubic-bezier(.16,1,.3,1);
+  }
+
+  /* ── RESET ──────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 18px; scroll-behavior: smooth; }
+  body {
+    background: var(--linen);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-weight: 300;
+    line-height: 1.7;
+    cursor: none;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  ::selection { background: var(--accent); color: var(--linen); }
+
+  /* ── CUSTOM CURSOR ──────────────────────────────────────── */
+  #cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%,-50%);
+    transition: transform .15s var(--ease-out-expo),
+                width .3s var(--ease-out-expo),
+                height .3s var(--ease-out-expo),
+                background .3s;
+    mix-blend-mode: multiply;
+  }
+  #cursor.hovering {
+    width: 36px; height: 36px;
+    background: var(--accent-lt);
+    opacity: .5;
+  }
+
+  /* ── GRAIN OVERLAY ──────────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9998;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 180px;
+    opacity: .028;
+  }
+
+  /* ── NAV ────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 2rem 4rem;
+    backdrop-filter: blur(10px);
+    background: rgba(245,242,236,.88);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-name {
+    font-family: var(--serif);
+    font-size: .95rem;
+    font-weight: 400;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .nav-links {
+    display: flex; gap: 3rem; list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: .65rem;
+    font-weight: 300;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    transition: color .3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -2px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width .4s var(--ease-out-expo);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── SECTIONS ───────────────────────────────────────────── */
+  section {
+    min-height: 100vh;
+    padding: 14rem 4rem 8rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── HERO ───────────────────────────────────────────────── */
+  #hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: 4rem;
+    min-height: 85vh;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+    background-color: #06101e;
+  }
+ 
+  #hero::before,
+  #hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+ 
+  /* Upper band — deep cobalt with a near-black crown */
+  #hero::before {
+    background:
+      radial-gradient(
+        ellipse 130% 52% at 50% 15%,
+        #0c1f45 0%,
+        #080f28 45%,
+        transparent 100%
+      ),
+      radial-gradient(
+        ellipse 115% 55% at 46% 52%,
+        #173470 0%,
+        #0f2456 38%,
+        #081840 68%,
+        transparent 100%
+      );
+  }
+ 
+  /* Lower band — slate-indigo base + the luminous Rothko seam-glow */
+  #hero::after {
+    background:
+      radial-gradient(
+        ellipse 105% 44% at 54% 90%,
+        #0d1e3c 0%,
+        #060e20 55%,
+        transparent 100%
+      ),
+      /* seam between upper and mid band */
+      radial-gradient(
+        ellipse 90% 10% at 50% 36%,
+        rgba(55, 105, 195, 0.26) 0%,
+        transparent 100%
+      ),
+      /* seam between mid and lower band */
+      radial-gradient(
+        ellipse 75% 8% at 50% 66%,
+        rgba(28, 62, 128, 0.18) 0%,
+        transparent 100%
+      );
+  }
+ 
+  /* Lift all direct hero children above the painted layers */
+  #hero > * { position: relative; z-index: 1; }
+ 
+  /* Typography recoloured for the dark Rothko ground */
+  .hero-eyebrow { color: rgba(155, 188, 232, 0.52) !important; }
+  .hero-name    { color: #dbe8f6 !important; }
+  .hero-name em { color: #6ca2de !important; }
+  .hero-tagline { color: rgba(178, 206, 238, 0.65) !important; }
+  .hero-meta    { color: rgba(145, 178, 222, 0.42) !important; }
+  .hero-cta {
+    color: #89bae6 !important;
+    border-color: rgba(95, 155, 218, 0.32) !important;
+  }
+  .hero-cta:hover {
+    background: rgba(95, 155, 218, 0.1) !important;
+    color: #c5ddf4 !important;
+    border-color: rgba(125, 180, 235, 0.6) !important;
+  }
+  .hero-divider { background: rgba(95, 145, 210, 0.10) !important; }
+  .hero-left { padding-top: 6rem; }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: .62rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fade-up .8s var(--ease-out-expo) .2s forwards;
+  }
+  .hero-name {
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -.01em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fade-up .9s var(--ease-out-expo) .35s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-tagline {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    max-width: 36ch;
+    line-height: 1.75;
+    opacity: 0;
+    animation: fade-up .9s var(--ease-out-expo) .5s forwards;
+  }
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 2rem;
+    padding-bottom: 1rem;
+    opacity: 0;
+    animation: fade-up .9s var(--ease-out-expo) .65s forwards;
+  }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    text-align: right;
+    line-height: 2.2;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: .75rem;
+    font-family: var(--mono);
+    font-size: .65rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: .9rem 1.8rem;
+    transition: background .35s, color .35s;
+  }
+  .hero-cta:hover { background: var(--accent); color: var(--linen); }
+  .hero-cta svg { transition: transform .35s var(--ease-out-expo); }
+  .hero-cta:hover svg { transform: translateX(4px); }
+  .hero-divider {
+    position: absolute;
+    bottom: 4rem; left: 4rem; right: 4rem;
+    height: 1px; background: var(--rule);
+    opacity: 0;
+    animation: fade-in 1s var(--ease-out-expo) 1s forwards;
+  }
+
+  /* ── SECTION HEADER ─────────────────────────────────────── */
+  .section-header {
+    display: flex; align-items: baseline; gap: 2rem;
+    margin-bottom: 5rem;
+  }
+  .about-profile {
+    display: block;
+    width: 300px;
+    max-width: 100%;
+    margin-top: 0.75rem;
+    margin-left: 0;
+    border-radius: 4px;
+    transition: transform .3s;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    padding-top: .3rem;
+  }
+  .section-title {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ── ABOUT ──────────────────────────────────────────────── */
+  #about { min-height: auto; padding-top: 10rem; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-left {}
+  .about-facts {
+    list-style: none;
+    margin-top: 3rem;
+  }
+  .about-facts li {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    padding: .9rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .about-facts li span:last-child { color: var(--ink-soft); }
+  .about-right {}
+  .about-body {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--ink-soft);
+  }
+  .about-body p + p { margin-top: 1.5rem; }
+  .about-links {
+    display: flex; gap: 2.5rem;
+    margin-top: 3rem;
+  }
+  .link-pill {
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: .2rem;
+    transition: color .3s, border-color .3s;
+  }
+  .link-pill:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── EXPERIENCE ─────────────────────────────────────────── */
+  #experience { min-height: auto; padding-top: 8rem; }
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 3rem;
+    padding: 3rem 0;
+    border-top: 1px solid var(--rule);
+    transition: background .3s;
+  }
+  .exp-item:last-child { border-bottom: 1px solid var(--rule); }
+  .exp-meta {}
+  .exp-company {
+    font-family: var(--mono);
+    font-size: .62rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    margin-bottom: .5rem;
+  }
+  .exp-period {
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    opacity: .6;
+  }
+  .exp-content {}
+  .exp-role {
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 1.2rem;
+    line-height: 1.2;
+  }
+  .exp-bullets {
+    list-style: none;
+    display: flex; flex-direction: column; gap: .65rem;
+  }
+  .exp-bullets li {
+    font-size: .92rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--ink-ghost);
+    font-weight: 300;
+  }
+  .exp-tags {
+    display: flex; flex-wrap: wrap; gap: .5rem;
+    margin-top: 1.2rem;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: .52rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    border: 1px solid var(--rule);
+    padding: .3rem .7rem;
+    border-radius: 0;
+    transition: border-color .3s, color .3s;
+  }
+  .exp-item:hover .tag { border-color: rgba(27,45,79,.2); color: var(--accent); }
+
+  /* ── PROJECTS ───────────────────────────────────────────── */
+  #projects { min-height: auto; padding-top: 8rem; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .project-card {
+    background: var(--linen-mid);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: background .4s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform: translateY(100%);
+    transition: transform .5s var(--ease-out-expo);
+    z-index: 0;
+  }
+  .project-card:hover::before { transform: translateY(0); }
+  .project-card:hover .project-num,
+  .project-card:hover .project-title,
+  .project-card:hover .project-desc,
+  .project-card:hover .project-stack { color: var(--linen); }
+  .project-card:hover .project-link { border-color: rgba(245,242,236,.3); color: var(--linen); }
+  .project-inner { position: relative; z-index: 1; }
+  .project-num {
+    font-family: var(--mono);
+    font-size: .55rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    margin-bottom: 2rem;
+    transition: color .4s;
+  }
+  .project-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    transition: color .4s;
+  }
+  .project-desc {
+    font-size: .88rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    transition: color .4s;
+  }
+  .project-stack {
+    font-family: var(--mono);
+    font-size: .55rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    margin-bottom: 2rem;
+    transition: color .4s;
+  }
+  .project-link {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: .15rem;
+    transition: color .4s, border-color .4s;
+  }
+
+  /* ── SKILLS ─────────────────────────────────────────────── */
+  #skills { min-height: auto; padding-top: 8rem; padding-bottom: 8rem; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+  .skill-group {}
+  .skill-group-label {
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    margin-bottom: 1.5rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .skill-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: .5rem;
+  }
+  .skill-list li {
+    font-size: .88rem;
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* ── PHOTOGRAPHY ────────────────────────────────────────── */
+  #photography {
+    min-height: auto;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    max-width: 100%;
+    padding-left: 0; padding-right: 0;
+  }
+  #photography .section-header {
+    padding-left: 4rem; padding-right: 4rem;
+    max-width: 1200px;
+    margin-left: auto; margin-right: auto;
+  }
+  .photo-note {
+    padding-left: 4rem;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+  }
+  .photo-upload-zone {
+    margin: 0 4rem;
+    border: 1px dashed rgba(26,22,14,.18);
+    padding: 5rem 3rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .3s, background .3s;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .photo-upload-zone:hover {
+    border-color: var(--accent);
+    background: rgba(27,45,79,.02);
+  }
+  .photo-upload-zone input[type="file"] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-label {
+    font-family: var(--mono);
+    font-size: .62rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    pointer-events: none;
+  }
+  .upload-label span {
+    display: block;
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-soft);
+    margin-bottom: .75rem;
+    letter-spacing: 0;
+  }
+  .photo-masonry {
+    columns: 3;
+    column-gap: 3px;
+    margin: 3px 0 0;
+    padding: 0;
+  }
+  .photo-masonry-item {
+    break-inside: avoid;
+    margin-bottom: 3px;
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+  }
+  .photo-masonry-item img {
+    width: 100%;
+    display: block;
+    transition: transform .7s var(--ease-out-expo), filter .5s;
+    filter: saturate(.85) contrast(1.02);
+  }
+  .photo-masonry-item:hover img {
+    transform: scale(1.025);
+    filter: saturate(1) contrast(1);
+  }
+  .photo-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 3rem 1.5rem 1.5rem;
+    background: linear-gradient(transparent, rgba(17,16,9,.55));
+    font-family: var(--mono);
+    font-size: .55rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,.6);
+    opacity: 0;
+    transition: opacity .4s;
+  }
+  .photo-masonry-item:hover .photo-caption { opacity: 1; }
+
+  /* ── LIGHTBOX ───────────────────────────────────────────── */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(17,16,9,.95);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity .4s;
+  }
+  #lightbox.open { opacity: 1; pointer-events: all; }
+  #lightbox img {
+    max-width: 90vw; max-height: 90vh;
+    object-fit: contain;
+  }
+  #lightbox-close {
+    position: absolute; top: 2rem; right: 3rem;
+    font-family: var(--mono);
+    font-size: .6rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,.5);
+    cursor: none;
+    transition: color .3s;
+  }
+  #lightbox-close:hover { color: var(--linen); }
+
+  /* ── FOOTER ─────────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .footer-name {
+    font-family: var(--serif);
+    font-size: .85rem;
+    font-weight: 400;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+  }
+  .footer-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: .58rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    transition: color .3s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── SCROLL REVEAL ──────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── KEYFRAMES ──────────────────────────────────────────── */
+  @keyframes fade-up {
+    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(20px); }
+  }
+  @keyframes fade-in {
+    to { opacity: 1; } from { opacity: 0; }
+  }
+
+  /* ── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { gap: 1.8rem; }
+    section { padding: 10rem 2rem 6rem; }
+    #hero { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-right { align-items: flex-start; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .photo-masonry { columns: 2; }
+    #photography .section-header,
+    .photo-note,
+    .photo-upload-zone { padding-left: 2rem; padding-right: 2rem; margin-left: 0; margin-right: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <span id="lightbox-close">Close ✕</span>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<!-- ── NAV ───────────────────────────────────────────────── -->
+<nav>
+  <span class="nav-name">Rayansh Singh</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#photography">Lens</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────── -->
+<section id="hero" style="max-width:100%; padding-left:4rem; padding-right:4rem;">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Computer Scientist — Michigan State University</p>
+    <h1 class="hero-name">Building systems<br>at the edge of<br><em>intelligence.</em></h1>
+    <p class="hero-tagline">
+      I design and engineer software that lives at the intersection of distributed systems and machine learning — from low-latency data pipelines to Bayesian-augmented AI.
+    </p>
+  </div>
+  <div class="hero-right">
+    <div class="hero-meta">
+      GPA 3.81 / 4.0<br>
+      Dean's List<br>
+      East Lansing, MI<br>
+      Open to Opportunities
+    </div>
+    <a href="#projects" class="hero-cta">
+      View Work
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+        <path d="M8.5 1L13 5M13 5L8.5 9M13 5H1" stroke="currentColor" stroke-width="1"/>
+      </svg>
+    </a>
+  </div>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- ── ABOUT ─────────────────────────────────────────────── -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About <em>Me</em></h2>
+  </div>
+  <img src="profile.jpg" alt="A photo of me" class="reveal about-profile" />
+  <div class="about-grid">
+    <div class="about-left reveal">
+      <ul class="about-facts">
+        <li><span>Degree</span><span>B.S. Computer Science</span></li>
+        <li><span>University</span><span>Michigan State</span></li>
+        <li><span>Focus</span><span>ML / AI Systems</span></li>
+        <li><span>Research</span><span>HAAIL Lab</span></li>
+        <li><span>Role</span><span>GDG Exec Board</span></li>
+      </ul>
+      <div class="about-links" style="margin-top:2.5rem;">
+        <a href="#" class="link-pill">GitHub ↗</a>
+        <a href="#" class="link-pill">LinkedIn ↗</a>
+        <a href="#" class="link-pill">Resume ↗</a>
+      </div>
+    </div>
+    <div class="about-right reveal" style="transition-delay:.15s;">
+      <div class="about-body">
+        <p>I'm a computer science student at Michigan State University with a deep interest in the systems that make intelligence possible — from distributed architectures that coordinate dozens of AI agents to Bayesian pipelines that help models reason more carefully about what they don't know.</p>
+        <p>My work spans three disciplines: machine learning research at MSU's Human Augmentation and AI Lab, production full-stack engineering at Delta Dental, and data engineering at Deloitte Consulting in Delhi. I'm drawn to problems that resist easy solutions.</p>
+        <p>Outside of engineering, I photograph — usually landscapes and quiet human moments. I believe good software and good photographs share the same discipline: knowing exactly what to leave out.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ────────────────────────────────────────── -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title"><em>Experience</em></h2>
+  </div>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-company">MSU HAAIL</div>
+        <div class="exp-period">Jan 2026 – Present</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Undergraduate Research Assistant</div>
+        <ul class="exp-bullets">
+          <li>Improved out-of-distribution generalization by 20–55% across 7 benchmark datasets by building a Bayesian-LLM pipeline that generates informative priors for logistic regression models.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="tag">PyMC</span><span class="tag">scikit-learn</span>
+          <span class="tag">SciPy</span><span class="tag">OpenAI</span>
+          <span class="tag">Bayesian ML</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-company">Delta Dental</div>
+        <div class="exp-period">May – Dec 2025</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Software Engineering Intern</div>
+        <ul class="exp-bullets">
+          <li>Eliminated 98% of manual processing time — from 1.5 hrs to 45 seconds — for dental plan modifications by architecting a full-stack platform serving 150+ internal users.</li>
+          <li>Cut redundant database calls by 60% by refactoring a Java REST API with cache invalidation logic.</li>
+          <li>Expedited manual QA time by 35% by integrating an automated smoke test suite into the CI/CD pipeline via Testim.io.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="tag">Angular</span><span class="tag">TypeScript</span>
+          <span class="tag">Node.js</span><span class="tag">Java</span>
+          <span class="tag">MongoDB</span><span class="tag">Testim.io</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-company">Deloitte Consulting</div>
+        <div class="exp-period">May – Aug 2024</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-role">Data Engineering Intern</div>
+        <ul class="exp-bullets">
+          <li>Unified 80% of fragmented multi-source client datasets via schema normalization and dimensional modeling across a scalable data architecture.</li>
+          <li>Automated ingestion of 500K+ records/week with an ETL pipeline built on AWS Glue and PySpark, cutting manual data handoff across two teams.</li>
+          <li>Enhanced a demand-forecasting dashboard with Flask and scikit-learn, contributing directly to a ~$350K client engagement.</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="tag">AWS Glue</span><span class="tag">PySpark</span>
+          <span class="tag">Flask</span><span class="tag">scikit-learn</span>
+          <span class="tag">ETL</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PROJECTS ──────────────────────────────────────────── -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Selected <em>Work</em></h2>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-inner">
+        <div class="project-num">Project 01</div>
+        <div class="project-title">Distributed AI Agent Orchestrator</div>
+        <div class="project-desc">Task-orchestration engine coordinating 50+ concurrent AI agents via Redis-backed state machines. Lua scripts ensure atomicity in task-claiming; incremental LangGraph checkpoints cut mean recovery time from ~70s to ~8s.</div>
+        <div class="project-stack">Python · Redis · LangGraph · Lua · FastAPI · React</div>
+        <a href="#" class="project-link">
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal" style="transition-delay:.1s;">
+      <div class="project-inner">
+        <div class="project-num">Project 02</div>
+        <div class="project-title">Real-Time Market Analytics System</div>
+        <div class="project-desc">5-microservice Kafka architecture ingesting 50K+ financial events/hour at sub-100ms latency. TimescaleDB with hypertables achieves &lt;50ms query latency on 100K+ records. Exposes 20+ technical indicators via REST and WebSocket.</div>
+        <div class="project-stack">Python · Kafka · FastAPI · TimescaleDB · PostgreSQL · Docker</div>
+        <a href="#" class="project-link">
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal" style="transition-delay:.2s;">
+      <div class="project-inner">
+        <div class="project-num">Project 03</div>
+        <div class="project-title">Regime-Adaptive Statistical Arbitrage</div>
+        <div class="project-desc">Market regime detection using Hidden Markov Models to shift statistical arbitrage strategies dynamically. Built with a modular pipeline for real-time signal generation and backtesting.</div>
+        <div class="project-stack">HMM · PyArrow · NumPy · Flask · React</div>
+        <a href="#" class="project-link">
+          View Project ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal" style="transition-delay:.3s;">
+      <div class="project-inner">
+        <div class="project-num">Project 04</div>
+        <div class="project-title">Bayesian-LLM Prior Generation</div>
+        <div class="project-desc">Research pipeline combining large language models with Bayesian inference to generate informative priors, improving out-of-distribution generalization by 20–55% across 7 benchmark datasets at MSU's HAAIL lab.</div>
+        <div class="project-stack">PyMC · scikit-learn · SciPy · OpenAI · Python</div>
+        <a href="#" class="project-link">
+          Research ↗
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ─────────────────────────────────────────────── -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title"><em>Toolkit</em></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-label">ML / AI</div>
+      <ul class="skill-list">
+        <li>PyTorch</li>
+        <li>HuggingFace</li>
+        <li>LangChain / LangGraph</li>
+        <li>PyMC</li>
+        <li>scikit-learn</li>
+        <li>NumPy / Pandas</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal" style="transition-delay:.1s;">
+      <div class="skill-group-label">Languages</div>
+      <ul class="skill-list">
+        <li>Python</li>
+        <li>C / C++</li>
+        <li>Java</li>
+        <li>TypeScript</li>
+        <li>JavaScript</li>
+        <li>SQL</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal" style="transition-delay:.2s;">
+      <div class="skill-group-label">Full Stack</div>
+      <ul class="skill-list">
+        <li>React / Next.js</li>
+        <li>Angular / Vue.js</li>
+        <li>FastAPI / Flask</li>
+        <li>Node.js</li>
+        <li>PostgreSQL / MongoDB</li>
+        <li>Redis</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal" style="transition-delay:.3s;">
+      <div class="skill-group-label">Infrastructure</div>
+      <ul class="skill-list">
+        <li>Docker</li>
+        <li>AWS / GCP</li>
+        <li>Kafka</li>
+        <li>Git</li>
+        <li>CI/CD</li>
+        <li>Jupyter</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── PHOTOGRAPHY ───────────────────────────────────────── -->
+<section id="photography">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Through the <em>Lens</em></h2>
+  </div>
+  <p class="photo-note reveal">Upload your photographs — they'll be displayed below as a private gallery.</p>
+
+  <div class="photo-upload-zone reveal" id="upload-zone">
+    <input type="file" id="photo-input" accept="image/*" multiple />
+    <div class="upload-label">
+      <span>Drop photographs here</span>
+      Click to select images from your device
+    </div>
+  </div>
+
+  <div class="photo-masonry" id="photo-masonry"></div>
+</section>
+
+<!-- ── LIGHTBOX ──────────────────────────────────────────── -->
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer>
+  <span class="footer-name">Rayansh Singh · MSU Computer Science</span>
+  <ul class="footer-links">
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">LinkedIn</a></li>
+    <li><a href="#">Resume</a></li>
+    <li><a href="mailto:your@email.com">Email</a></li>
+  </ul>
+</footer>
+
+<script>
+/* ── CURSOR ──────────────────────────────────────────────── */
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('a, button, .project-card, .photo-masonry-item, .photo-upload-zone, #lightbox-close').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+});
+
+/* ── SCROLL REVEAL ───────────────────────────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ── PHOTO GALLERY ───────────────────────────────────────── */
+const input    = document.getElementById('photo-input');
+const masonry  = document.getElementById('photo-masonry');
+const zone     = document.getElementById('upload-zone');
+const lightbox = document.getElementById('lightbox');
+const lbImg    = document.getElementById('lightbox-img');
+const lbClose  = document.getElementById('lightbox-close');
+
+input.addEventListener('change', e => {
+  const files = Array.from(e.target.files);
+  files.forEach((file, i) => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const item = document.createElement('div');
+      item.className = 'photo-masonry-item';
+
+      const img = document.createElement('img');
+      img.src = ev.target.result;
+      img.alt = file.name.replace(/\.[^.]+$/, '');
+      img.loading = 'lazy';
+
+      const cap = document.createElement('div');
+      cap.className = 'photo-caption';
+      cap.textContent = img.alt;
+
+      item.appendChild(img);
+      item.appendChild(cap);
+      masonry.appendChild(item);
+
+      // Lightbox
+      item.addEventListener('click', () => {
+        lbImg.src = ev.target.result;
+        lightbox.classList.add('open');
+      });
+
+      // Cursor hover
+      item.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+      item.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+
+      // Reveal animation
+      setTimeout(() => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(16px)';
+        item.style.transition = 'opacity .6s ease, transform .6s ease';
+        requestAnimationFrame(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'none';
+        });
+      }, i * 80);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Hide upload zone after first upload
+  if (files.length) {
+    zone.style.display = 'none';
+  }
+});
+
+// Close lightbox
+lbClose.addEventListener('click', () => lightbox.classList.remove('open'));
+lightbox.addEventListener('click', e => {
+  if (e.target === lightbox) lightbox.classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') lightbox.classList.remove('open');
+});
+
+/* ── DRAG & DROP ─────────────────────────────────────────── */
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--accent)'; });
+zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; });
+zone.addEventListener('drop', e => {
+  e.preventDefault();
+  zone.style.borderColor = '';
+  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  const dt = new DataTransfer();
+  files.forEach(f => dt.items.add(f));
+  input.files = dt.files;
+  input.dispatchEvent(new Event('change'));
+});
+</script>
+</body>
+</html>
