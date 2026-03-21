@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 function readImageAsDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -70,22 +70,22 @@ export default function App() {
     const enter = () => cursor.classList.add('hovering');
     const leave = () => cursor.classList.remove('hovering');
 
-    hoverables.forEach((element) => {
-      element.addEventListener('mouseenter', enter);
-      element.addEventListener('mouseleave', leave);
+    hoverables.forEach((el) => {
+      el.addEventListener('mouseenter', enter);
+      el.addEventListener('mouseleave', leave);
     });
 
     return () => {
       document.removeEventListener('mousemove', handleMove);
-      hoverables.forEach((element) => {
-        element.removeEventListener('mouseenter', enter);
-        element.removeEventListener('mouseleave', leave);
+      hoverables.forEach((el) => {
+        el.removeEventListener('mouseenter', enter);
+        el.removeEventListener('mouseleave', leave);
       });
     };
   }, [photos.length, lightboxOpen]);
 
   useEffect(() => {
-    const revealElements = document.querySelectorAll('.reveal');
+    const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -97,24 +97,19 @@ export default function App() {
       },
       { threshold: 0.08 }
     );
-
-    revealElements.forEach((element) => observer.observe(element));
+    revealEls.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, [photos.length]);
 
   useEffect(() => {
-    const onKeyDown = (event) => {
-      if (event.key === 'Escape') setLightboxSrc('');
-    };
-
+    const onKeyDown = (e) => { if (e.key === 'Escape') setLightboxSrc(''); };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, []);
 
   const handleFiles = async (fileList) => {
-    const files = Array.from(fileList || []).filter((file) => file.type.startsWith('image/'));
+    const files = Array.from(fileList || []).filter((f) => f.type.startsWith('image/'));
     if (!files.length) return;
-
     const loaded = await Promise.all(
       files.map(async (file) => {
         const src = await readImageAsDataUrl(file);
@@ -125,34 +120,29 @@ export default function App() {
         };
       })
     );
-
-    setPhotos((previous) => [...previous, ...loaded]);
+    setPhotos((prev) => [...prev, ...loaded]);
   };
 
-  const onInputChange = async (event) => {
-    await handleFiles(event.target.files);
-    event.target.value = '';
-  };
-
-  const onDrop = async (event) => {
-    event.preventDefault();
-    setIsDragging(false);
-    await handleFiles(event.dataTransfer.files);
-  };
+  const onInputChange = async (e) => { await handleFiles(e.target.files); e.target.value = ''; };
+  const onDrop = async (e) => { e.preventDefault(); setIsDragging(false); await handleFiles(e.dataTransfer.files); };
 
   return (
     <>
       <div id="cursor" ref={cursorRef} />
 
-      <div id="lightbox" className={lightboxOpen ? 'open' : ''} onClick={(event) => {
-        if (event.target.id === 'lightbox') setLightboxSrc('');
-      }}>
+      {/* Lightbox */}
+      <div
+        id="lightbox"
+        className={lightboxOpen ? 'open' : ''}
+        onClick={(e) => { if (e.target.id === 'lightbox') setLightboxSrc(''); }}
+      >
         <span id="lightbox-close" onClick={() => setLightboxSrc('')}>Close ✕</span>
         <img id="lightbox-img" src={lightboxSrc || ''} alt="" />
       </div>
 
+      {/* Nav */}
       <nav>
-        <span className="nav-name">Rayansh Singh</span>
+        <span className="nav-name"><em>Rayansh Singh</em></span>
         <ul className="nav-links">
           <li><a href="#about">About</a></li>
           <li><a href="#experience">Experience</a></li>
@@ -162,39 +152,53 @@ export default function App() {
         </ul>
       </nav>
 
+      {/* Hero — full magazine cover */}
       <section id="hero">
-        <div className="hero-left">
-          <p className="hero-eyebrow">Computer Scientist — Michigan State University</p>
-          <h1 className="hero-name">Building systems<br />at the edge of<br /><em>intelligence.</em></h1>
-          <p className="hero-tagline">
-            I design and engineer software that lives at the intersection of distributed systems and machine learning — from low-latency data pipelines to Bayesian-augmented AI.
-          </p>
-        </div>
-        <div className="hero-right">
-          <div className="hero-meta">
-            GPA 3.81 / 4.0<br />
-            Dean&apos;s List<br />
-            East Lansing, MI<br />
-            Open to Opportunities
+        {/* Background ghost numeral */}
+        <span className="hero-bg-issue" aria-hidden="true">RS</span>
+
+        <div className="hero-content">
+          <div className="hero-left">
+            <p className="hero-eyebrow">Computer Science · Applied Mathematics · Cognitive Science</p>
+            <h1 className="hero-name">
+              From data to decisions,<br />with <em>clarity and care</em>
+            </h1>
+            <p className="hero-tagline">
+              I'm drawn to projects where theory meets practice, and the real test
+              is whether the system can handle unpredictability.
+            </p>
           </div>
-          <a href="#projects" className="hero-cta">
-            View Work
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-              <path d="M8.5 1L13 5M13 5L8.5 9M13 5H1" stroke="currentColor" strokeWidth="1" />
-            </svg>
-          </a>
+
+          <div className="hero-right">
+            <div className="hero-meta">
+              East Lansing, MI<br />
+              Michigan State University
+            </div>
+            <a href="#projects" className="hero-cta">
+              View Work
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <path d="M8.5 1L13 5M13 5L8.5 9M13 5H1" stroke="currentColor" strokeWidth="1" />
+              </svg>
+            </a>
+          </div>
         </div>
-        <div className="hero-divider" />
+
+        {/* Magazine bottom bar */}
+        <div className="hero-bar">
+          <span className="hero-bar-label">Portfolio — 2025</span>
+          <span className="hero-bar-scroll">Scroll to explore</span>
+        </div>
       </section>
 
+      {/* About */}
       <section id="about">
         <div className="section-header reveal">
-          <span className="section-num">01</span>
+          <span className="section-num" aria-hidden="true">01</span>
           <h2 className="section-title">About <em>Me</em></h2>
         </div>
         <div className="about-grid">
           <div className="about-left reveal">
-            <img src="/profile.jpg" alt="A photo of me" className="reveal about-profile" />
+            <img src="/profile.jpg" alt="A photo of me" className="about-profile" />
             <ul className="about-facts">
               <li><span>Degree</span><span>B.S. Computer Science</span></li>
               <li><span>University</span><span>Michigan State</span></li>
@@ -202,28 +206,31 @@ export default function App() {
               <li><span>Research</span><span>HAAIL Lab</span></li>
               <li><span>Role</span><span>GDG Exec Board</span></li>
             </ul>
-            <div className="about-links" style={{ marginTop: '2.5rem' }}>
+            <div className="about-links" style={{ marginTop: '2rem' }}>
               <a href="#" className="link-pill">GitHub ↗</a>
               <a href="#" className="link-pill">LinkedIn ↗</a>
               <a href="#" className="link-pill">Resume ↗</a>
             </div>
           </div>
+
           <div className="about-right reveal" style={{ transitionDelay: '.15s' }}>
             <div className="about-body">
-              <p>I&apos;m a computer science student at Michigan State University with a deep interest in the systems that make intelligence possible — from distributed architectures that coordinate dozens of AI agents to Bayesian pipelines that help models reason more carefully about what they don&apos;t know.</p>
-              <p>My work spans three disciplines: machine learning research at MSU&apos;s Human Augmentation and AI Lab, production full-stack engineering at Delta Dental, and data engineering at Deloitte Consulting in Delhi. I&apos;m drawn to problems that resist easy solutions.</p>
+              <p>Hello! I'm a computer science student at Michigan State University. I build systems that make complex, data-driven tasks easier by combining technical depth with human-centered design</p>
+              <p>My work spans three disciplines: machine learning research at MSU's Human Augmentation and AI Lab, production full-stack engineering at Delta Dental, and data engineering at Deloitte Consulting in Delhi. I'm drawn to problems that resist easy solutions.</p>
               <p>Outside of engineering, I photograph — usually landscapes and quiet human moments. I believe good software and good photographs share the same discipline: knowing exactly what to leave out.</p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Experience */}
       <section id="experience">
         <div className="section-header reveal">
-          <span className="section-num">02</span>
+          <span className="section-num" aria-hidden="true">02</span>
           <h2 className="section-title"><em>Experience</em></h2>
         </div>
         <div className="exp-list">
+
           <div className="exp-item reveal">
             <div className="exp-meta">
               <div className="exp-company">MSU HAAIL</div>
@@ -284,14 +291,19 @@ export default function App() {
         </div>
       </section>
 
+      {/* Projects */}
       <section id="projects">
         <div className="section-header reveal">
-          <span className="section-num">03</span>
+          <span className="section-num" aria-hidden="true">03</span>
           <h2 className="section-title">Selected <em>Work</em></h2>
         </div>
         <div className="projects-grid">
           {projectCards.map((project) => (
-            <div key={project.num} className="project-card reveal" style={project.delay ? { transitionDelay: project.delay } : undefined}>
+            <div
+              key={project.num}
+              className="project-card reveal"
+              style={project.delay ? { transitionDelay: project.delay } : undefined}
+            >
               <div className="project-inner">
                 <div className="project-num">{project.num}</div>
                 <div className="project-title">{project.title}</div>
@@ -304,9 +316,10 @@ export default function App() {
         </div>
       </section>
 
+      {/* Skills — full-bleed dark section */}
       <section id="skills">
         <div className="section-header reveal">
-          <span className="section-num">04</span>
+          <span className="section-num" aria-hidden="true">04</span>
           <h2 className="section-title"><em>Toolkit</em></h2>
         </div>
         <div className="skills-grid">
@@ -357,21 +370,22 @@ export default function App() {
         </div>
       </section>
 
+      {/* Photography */}
       <section id="photography">
         <div className="section-header reveal">
-          <span className="section-num">05</span>
+          <span className="section-num" aria-hidden="true">05</span>
           <h2 className="section-title">Through the <em>Lens</em></h2>
         </div>
-        <p className="photo-note reveal">Two of my favorite hobbies are travelling and photography.</p>
+
+        <p className="photo-note reveal">
+          Landscapes, light, and quiet human moments — collected along the way.
+        </p>
 
         {photos.length === 0 && (
           <div
             className="photo-upload-zone reveal"
             id="upload-zone"
-            onDragOver={(event) => {
-              event.preventDefault();
-              setIsDragging(true);
-            }}
+            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
             onDragLeave={() => setIsDragging(false)}
             onDrop={onDrop}
             style={isDragging ? { borderColor: 'var(--accent)' } : undefined}
@@ -386,7 +400,11 @@ export default function App() {
 
         <div className="photo-masonry" id="photo-masonry">
           {photos.map((photo) => (
-            <div key={photo.id} className="photo-masonry-item" onClick={() => setLightboxSrc(photo.src)}>
+            <div
+              key={photo.id}
+              className="photo-masonry-item"
+              onClick={() => setLightboxSrc(photo.src)}
+            >
               <img src={photo.src} alt={photo.alt} loading="lazy" />
               <div className="photo-caption">{photo.alt}</div>
             </div>
@@ -394,8 +412,9 @@ export default function App() {
         </div>
       </section>
 
+      {/* Footer */}
       <footer>
-        <span className="footer-name">Rayansh Singh · MSU Computer Science</span>
+        <span className="footer-name"><em>Rayansh Singh</em> — MSU Computer Science</span>
         <ul className="footer-links">
           <li><a href="#">GitHub</a></li>
           <li><a href="#">LinkedIn</a></li>
