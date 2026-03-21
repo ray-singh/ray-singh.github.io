@@ -17,7 +17,7 @@
 
 /* ── RESET ──────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 17px; scroll-behavior: smooth; }
+html { font-size: 15px; scroll-behavior: smooth; }
 body {
   background: var(--paper);
   color: var(--carbon);
@@ -85,7 +85,7 @@ nav {
 /* ── HERO ───────────────────────────────────────────────── */
 #hero {
   min-height: 100svh;
-  background: var(--carbon);
+  background-color: #06101e;
   display: grid;
   grid-template-rows: 1fr auto;
   padding: 0;
@@ -93,6 +93,53 @@ nav {
   position: relative;
   overflow: hidden;
 }
+
+#hero::before,
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#hero::before {
+  background:
+    radial-gradient(
+      ellipse 130% 52% at 50% 15%,
+      #0c1f45 0%,
+      #080f28 45%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 115% 55% at 46% 52%,
+      #173470 0%,
+      #0f2456 38%,
+      #081840 68%,
+      transparent 100%
+    );
+}
+
+#hero::after {
+  background:
+    radial-gradient(
+      ellipse 105% 44% at 54% 90%,
+      #0d1e3c 0%,
+      #060e20 55%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 90% 10% at 50% 36%,
+      rgba(55, 105, 195, 0.26) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 75% 8% at 50% 66%,
+      rgba(28, 62, 128, 0.18) 0%,
+      transparent 100%
+    );
+}
+
+#hero > * { position: relative; z-index: 1; }
 
 .hero-bg-issue {
   position: absolute;

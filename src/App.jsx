@@ -29,7 +29,7 @@ export default function App() {
       {
         num: 'Project 02',
         title: 'Real-Time Market Analytics System',
-        desc: '5-microservice Kafka architecture ingesting 50K+ financial events/hour at sub-100ms latency. TimescaleDB with hypertables achieves <50ms query latency on 100K+ records. Exposes 20+ technical indicators via REST and WebSocket.',
+        desc: '5-microservice Kafka architecture ingesting 50K+ financial events/hour at sub-200ms latency. TimescaleDB with hypertables achieves <80ms query latency on 100K+ records. Exposes 20+ technical indicators via REST and WebSocket.',
         stack: 'Python · Kafka · FastAPI · TimescaleDB · PostgreSQL · Docker',
         cta: 'GitHub ↗',
         delay: '.1s'
@@ -44,10 +44,10 @@ export default function App() {
       },
       {
         num: 'Project 04',
-        title: 'Bayesian-LLM Prior Generation',
-        desc: "Research pipeline combining large language models with Bayesian inference to generate informative priors, improving out-of-distribution generalization by 20–55% across 7 benchmark datasets at MSU's HAAIL lab.",
-        stack: 'PyMC · scikit-learn · SciPy · OpenAI · Python',
-        cta: 'Research ↗',
+        title: 'Autonomous Banking Assistant',
+        desc: 'Full-stack system powered by a LangGraph-based AI Agent with 11 specialized tools for automating SQL generation and bank statement analysis, achieving 93% task completion on an internal held-out benchmark of 150 real-world queries. Grew weekly active users from 5 to 60+ by implementing a RAG pipeline with PGVector for semantic transaction search and context-aware interaction.',
+        stack: 'Next.js · TypeScript · OpenAI API · PostgreSQL · DrizzleORM · Clerk · LangGraph · PGVector',
+        cta: 'GitHub ↗',
         delay: '.3s'
       }
     ],
@@ -154,14 +154,11 @@ export default function App() {
 
       {/* Hero — full magazine cover */}
       <section id="hero">
-        {/* Background ghost numeral */}
-        <span className="hero-bg-issue" aria-hidden="true">RS</span>
-
         <div className="hero-content">
           <div className="hero-left">
             <p className="hero-eyebrow">Computer Science · Applied Mathematics · Cognitive Science</p>
             <h1 className="hero-name">
-              From data to decisions,<br />with <em>clarity and care</em>
+              From data to decisions,<br />with <em>clarity & care</em>
             </h1>
             <p className="hero-tagline">
               I'm drawn to projects where theory meets practice, and the real test
@@ -185,7 +182,7 @@ export default function App() {
 
         {/* Magazine bottom bar */}
         <div className="hero-bar">
-          <span className="hero-bar-label">Portfolio — 2025</span>
+          <span className="hero-bar-label">Portfolio - 2026</span>
           <span className="hero-bar-scroll">Scroll to explore</span>
         </div>
       </section>
@@ -200,24 +197,23 @@ export default function App() {
           <div className="about-left reveal">
             <img src="/profile.jpg" alt="A photo of me" className="about-profile" />
             <ul className="about-facts">
-              <li><span>Degree</span><span>B.S. Computer Science</span></li>
-              <li><span>University</span><span>Michigan State</span></li>
+              <li><span>Minor</span><span>Applied Math</span></li>
               <li><span>Focus</span><span>ML / AI Systems</span></li>
-              <li><span>Research</span><span>HAAIL Lab</span></li>
-              <li><span>Role</span><span>GDG Exec Board</span></li>
+              <li><span>Research</span><span>Human Augmentation and Artificial Intelligence Lab</span></li>
+              <li><span>Roles</span><span>Research Assistant, Resident Assistant, Google Developer Groups</span></li>
             </ul>
             <div className="about-links" style={{ marginTop: '2rem' }}>
-              <a href="#" className="link-pill">GitHub ↗</a>
-              <a href="#" className="link-pill">LinkedIn ↗</a>
-              <a href="#" className="link-pill">Resume ↗</a>
+              <a href="https://github.com/ray-singh" className="link-pill">GitHub ↗</a>
+              <a href="https://www.linkedin.com/in/rayansh-singh" className="link-pill">LinkedIn ↗</a>
             </div>
           </div>
 
           <div className="about-right reveal" style={{ transitionDelay: '.15s' }}>
             <div className="about-body">
-              <p>Hello! I'm a computer science student at Michigan State University. I build systems that make complex, data-driven tasks easier by combining technical depth with human-centered design</p>
-              <p>My work spans three disciplines: machine learning research at MSU's Human Augmentation and AI Lab, production full-stack engineering at Delta Dental, and data engineering at Deloitte Consulting in Delhi. I'm drawn to problems that resist easy solutions.</p>
-              <p>Outside of engineering, I photograph — usually landscapes and quiet human moments. I believe good software and good photographs share the same discipline: knowing exactly what to leave out.</p>
+              <p>Hello! I'm a 4th Year Computer Science student at Michigan State University. I build systems that make complex, data-driven tasks more intuitive by combining technical depth with human-centered design.</p>
+              <p>My background is in software engineering and machine learning. I enjoy building real time data pipelines, backend systems, scalable APIs, and distributed systems. I care about writing code that is both efficient and understandable; systems that are as thoughtful as they are fast. I value clarity over cleverness, and robustness over quick wins.</p>
+              <p>My research focuses on probabilistic AI and its applications in complex adaptive systems, such as financial markets. I'm drawn to markets because they are high noise, high stakes environments where things rarely behave as expected. To me, their unpredictability is exactly what makes them worth studying.</p>
+              <p>Outside of engineering, I'm a novice tennis player. I enjoy traveling, photography, art, music, and a good hike. Photography, like engineering, is an exercise in attention. It sharpens my eye for detail, helping me notice patterns and small moments that often make the biggest difference. A small collage of moments I've captured is at the bottom of this page :)</p>
             </div>
           </div>
         </div>
