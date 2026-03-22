@@ -24,7 +24,8 @@ export default function App() {
         title: 'Distributed AI Agent Orchestrator',
         desc: 'Task-orchestration engine coordinating 50+ concurrent AI agents via Redis-backed state machines. Lua scripts ensure atomicity in task-claiming; incremental LangGraph checkpoints cut mean recovery time from ~70s to ~8s.',
         stack: 'Python · Redis · LangGraph · Lua · FastAPI · React',
-        cta: 'GitHub ↗'
+        cta: 'GitHub ↗',
+        link: 'https://github.com/ray-singh/Sentinel-Node-Orchestrator'
       },
       {
         num: 'Project 02',
@@ -32,15 +33,17 @@ export default function App() {
         desc: '5-microservice Kafka architecture ingesting 50K+ financial events/hour at sub-200ms latency. TimescaleDB with hypertables achieves <80ms query latency on 100K+ records. Exposes 20+ technical indicators via REST and WebSocket.',
         stack: 'Python · Kafka · FastAPI · TimescaleDB · PostgreSQL · Docker',
         cta: 'GitHub ↗',
-        delay: '.1s'
+        delay: '.1s',
+        link: 'https://github.com/ray-singh/analytics-api'
       },
       {
         num: 'Project 03',
         title: 'Regime-Adaptive Statistical Arbitrage',
         desc: 'Market regime detection using Hidden Markov Models to shift statistical arbitrage strategies dynamically. Built with a modular pipeline for real-time signal generation and backtesting.',
         stack: 'HMM · PyArrow · NumPy · Flask · React',
-        cta: 'View Project ↗',
-        delay: '.2s'
+        cta: 'GitHub ↗',
+        delay: '.2s',
+        link: 'https://github.com/ray-singh/regime-adaptive-stat-arb'
       },
       {
         num: 'Project 04',
@@ -48,7 +51,8 @@ export default function App() {
         desc: 'Full-stack system powered by a LangGraph-based AI Agent with 11 specialized tools for automating SQL generation and bank statement analysis, achieving 93% task completion on an internal held-out benchmark of 150 real-world queries. Grew weekly active users from 5 to 60+ by implementing a RAG pipeline with PGVector for semantic transaction search and context-aware interaction.',
         stack: 'Next.js · TypeScript · OpenAI API · PostgreSQL · DrizzleORM · Clerk · LangGraph · PGVector',
         cta: 'GitHub ↗',
-        delay: '.3s'
+        delay: '.3s',
+        link: 'https://github.com/ray-singh/FinMind'
       }
     ],
     []
@@ -268,7 +272,7 @@ export default function App() {
           <div className="exp-item reveal">
             <div className="exp-meta">
               <div className="exp-company">Deloitte Consulting</div>
-              <div className="exp-period">May – Aug 2024</div>
+              <div className="exp-period">May - Aug 2024</div>
             </div>
             <div className="exp-content">
               <div className="exp-role">Data Engineering Intern</div>
@@ -284,6 +288,21 @@ export default function App() {
               </div>
             </div>
           </div>
+
+          <div className="exp-item reveal">
+            <div className="exp-meta">
+              <div className="exp-company">Michigan State University</div>
+              <div className="exp-period">Aug - Dec 2023</div>
+            </div>
+            <div className="exp-content">
+              <div className="exp-role">Undergraduate Teaching Assistant</div>
+              <ul className="exp-bullets">
+                <li>Tutored 200+ students in pre-calculus and trigonometry, designing and implementing strategies that improved understanding and mastery of key concepts.</li>
+                <li>Boosted 15 students' average exam scores to 89% through biweekly review sessions and clear explanations of mathematical concepts.</li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -305,7 +324,9 @@ export default function App() {
                 <div className="project-title">{project.title}</div>
                 <div className="project-desc">{project.desc}</div>
                 <div className="project-stack">{project.stack}</div>
-                <a href="#" className="project-link">{project.cta}</a>
+                <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer">
+                  {project.cta}
+                </a>
               </div>
             </div>
           ))}

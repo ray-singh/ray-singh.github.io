@@ -585,7 +585,7 @@ section {
   display: flex; flex-direction: column; gap: .6rem;
 }
 .skill-list li {
-  font-size: .77rem;
+  font-size: calc(.77rem + 2px);
   font-weight: 300;
   color: rgba(244,241,235,.42);
   line-height: 1.5;
