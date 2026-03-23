@@ -285,7 +285,7 @@ export default function App() {
               <p>Hello! I'm a 4th Year Computer Science student at Michigan State University. I build systems that make complex, data-driven tasks more intuitive by combining technical depth with human-centered design.</p>
               <p>I enjoy building real time data pipelines, backend systems, scalable APIs, and distributed systems. I care about writing code that is both efficient and understandable; systems that are as thoughtful as they are fast. I value clarity over cleverness, and robustness over quick wins.</p>
               <p>My research focuses on probabilistic AI and its applications in complex adaptive systems, such as financial markets. I'm drawn to markets because they are high noise, high stakes environments where things rarely behave as expected. To me, their unpredictability is exactly what makes them worth studying.</p>
-              <p>Outside of engineering, I play tennis badly, travel, and take photographs. Photography taught me that engineering and art aren't opposites; both require obsessive attention, pattern recognition, and a balance of technical skill with intuition. The best systems feel effortless because someone spent weeks making them simple.</p>
+              <p>Outside of engineering, I play tennis (badly), travel, and take photographs. Photography taught me that engineering and art aren't opposites; both require obsessive attention, pattern recognition, and a balance of technical skill with intuition. The best systems feel effortless because someone spent weeks making them simple.</p>
             </div>
           </div>
         </div>
