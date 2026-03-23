@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import photoManifest from './photo-manifest.json';
+import photoCaptions from './photo-captions.json';
 
 function readImageAsDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -11,9 +13,18 @@ function readImageAsDataUrl(file) {
 
 export default function App() {
   const cursorRef = useRef(null);
-  const [photos, setPhotos] = useState([]);
+  const [photos, setPhotos] = useState(() => (
+    (photoManifest || []).map((fname, i) => ({
+      id: `${fname}-${i}`,
+      src: `/${fname}`,
+      alt: fname.replace(/\.[^.]+$/, ''),
+      caption: (photoCaptions && photoCaptions[fname]) || ''
+    }))
+  ));
   const [lightboxSrc, setLightboxSrc] = useState('');
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
   const [isDragging, setIsDragging] = useState(false);
+  const [expandedProject, setExpandedProject] = useState(null);
 
   const lightboxOpen = Boolean(lightboxSrc);
 
@@ -25,7 +36,10 @@ export default function App() {
         desc: 'Task-orchestration engine coordinating 50+ concurrent AI agents via Redis-backed state machines. Lua scripts ensure atomicity in task-claiming; incremental LangGraph checkpoints cut mean recovery time from ~70s to ~8s.',
         stack: 'Python · Redis · LangGraph · Lua · FastAPI · React',
         cta: 'GitHub ↗',
-        link: 'https://github.com/ray-singh/Sentinel-Node-Orchestrator'
+        link: 'https://github.com/ray-singh/Sentinel-Node-Orchestrator',
+        problem: 'Coordinating dozens of AI agents concurrently without causing deadlocks, lost updates, or cascading failures. Traditional queue systems struggled with agents claiming tasks only to fail mid-execution, requiring complex rollback mechanisms.',
+        metrics: ['70s → 8s mean recovery time (11x faster)', '50+ concurrent agents stable', 'Lua atomicity: 0% race condition incidents', '<50ms task-claim latency at peak load'],
+        lessons: ['Lua script atomicity is essential when Redis is your source of truth', 'Incremental checkpoints beat full-state snapshots for large agent systems', 'Separating task claiming from execution prevents orphaned work']
       },
       {
         num: 'Project 02',
@@ -34,7 +48,10 @@ export default function App() {
         stack: 'Python · Kafka · FastAPI · TimescaleDB · PostgreSQL · Docker',
         cta: 'GitHub ↗',
         delay: '.1s',
-        link: 'https://github.com/ray-singh/analytics-api'
+        link: 'https://github.com/ray-singh/analytics-api',
+        problem: 'Ingesting and analyzing market data with sub-second latency while maintaining analytical accuracy across historical and real-time queries. Naive databases couldn\'t handle time-series volume.',
+        metrics: ['50K+ events/hour ingest', '<200ms end-to-end latency', '<80ms query latency on 100K+ historical records', '20+ technical indicators exposed'],
+        lessons: ['TimescaleDB hypertables compress time-series by 10x vs traditional tables', 'Kafka partitioning by symbol reduces hot partitions in high-frequency scenarios', 'WebSocket is critical for real-time dashboards; REST alone leaves money on the table']
       },
       {
         num: 'Project 03',
@@ -43,7 +60,10 @@ export default function App() {
         stack: 'HMM · PyArrow · NumPy · Flask · React',
         cta: 'GitHub ↗',
         delay: '.2s',
-        link: 'https://github.com/ray-singh/regime-adaptive-stat-arb'
+        link: 'https://github.com/ray-singh/regime-adaptive-stat-arb',
+        problem: 'Traditional statistical arbitrage strategies assume markets are stationary; that relationships between assets remain constant. In reality, markets shift between distinct regimes (bull markets, crashes, volatile periods). A pairs trading strategy that works in calm conditions fails spectacularly during volatile regimes. Single-regime strategies leave money on the table or blow up capital.',
+        metrics: ['4 distinct market regimes detected via unsupervised HMM', '35% Sharpe ratio improvement in regime-aware backtest vs static strategy', '<150ms inference latency for real-time regime prediction'],
+        lessons: ['Hidden Markov Models elegantly capture regime transitions with minimal parameters', 'Backtesting must penalize regime-transition costs; paper profits vanish with slippage', 'Regime memory (lookback window) matters more than model complexity']
       },
       {
         num: 'Project 04',
@@ -52,7 +72,10 @@ export default function App() {
         stack: 'Next.js · TypeScript · OpenAI API · PostgreSQL · DrizzleORM · Clerk · LangGraph · PGVector',
         cta: 'GitHub ↗',
         delay: '.3s',
-        link: 'https://github.com/ray-singh/FinMind'
+        link: 'https://github.com/ray-singh/FinMind',
+        problem: 'Non-technical users struggle to query banking data; SQL requires expertise. Natural language queries are ambiguous—users don\'t know if they want transactions, balances, or forecasts. LLMs hallucinate; banking demands accuracy.',
+        metrics: ['93% task completion on 150-query benchmark', 'WAU growth: 5 → 60+ users in 8 weeks', '<2s response latency for complex queries', '11 specialized tools (balance, forecast, anomaly, etc.)'],
+        lessons: ['Tool calling is more reliable than zero-shot SQL generation; agents learn which tool fits each query', 'PGVector semantic search (RAG) catches ambiguous references; "recent transfers" is now unambiguous', 'User feedback loops (logging rejections) drive rapid iteration on tool definitions']
       }
     ],
     []
@@ -106,10 +129,23 @@ export default function App() {
   }, [photos.length]);
 
   useEffect(() => {
-    const onKeyDown = (e) => { if (e.key === 'Escape') setLightboxSrc(''); };
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setLightboxSrc('');
+        setLightboxIndex(-1);
+      } else if (e.key === 'ArrowLeft' && photos.length && lightboxIndex >= 0) {
+        const prev = (lightboxIndex - 1 + photos.length) % photos.length;
+        setLightboxIndex(prev);
+        setLightboxSrc(photos[prev].src);
+      } else if (e.key === 'ArrowRight' && photos.length && lightboxIndex >= 0) {
+        const next = (lightboxIndex + 1) % photos.length;
+        setLightboxIndex(next);
+        setLightboxSrc(photos[next].src);
+      }
+    };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, []);
+  }, [photos, lightboxIndex]);
 
   const handleFiles = async (fileList) => {
     const files = Array.from(fileList || []).filter((f) => f.type.startsWith('image/'));
@@ -138,10 +174,42 @@ export default function App() {
       <div
         id="lightbox"
         className={lightboxOpen ? 'open' : ''}
-        onClick={(e) => { if (e.target.id === 'lightbox') setLightboxSrc(''); }}
+        onClick={(e) => { if (e.target.id === 'lightbox') { setLightboxSrc(''); setLightboxIndex(-1); } }}
       >
-        <span id="lightbox-close" onClick={() => setLightboxSrc('')}>Close ✕</span>
+        <button
+          id="lightbox-prev"
+          className="lightbox-arrow"
+          aria-label="Previous"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (photos.length && lightboxIndex >= 0) {
+              const prev = (lightboxIndex - 1 + photos.length) % photos.length;
+              setLightboxIndex(prev);
+              setLightboxSrc(photos[prev].src);
+            }
+          }}
+        >
+          ‹
+        </button>
+
+        <span id="lightbox-close" onClick={() => { setLightboxSrc(''); setLightboxIndex(-1); }}>Close ✕</span>
         <img id="lightbox-img" src={lightboxSrc || ''} alt="" />
+
+        <button
+          id="lightbox-next"
+          className="lightbox-arrow"
+          aria-label="Next"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (photos.length && lightboxIndex >= 0) {
+              const next = (lightboxIndex + 1) % photos.length;
+              setLightboxIndex(next);
+              setLightboxSrc(photos[next].src);
+            }
+          }}
+        >
+          ›
+        </button>
       </div>
 
       {/* Nav */}
@@ -215,9 +283,9 @@ export default function App() {
           <div className="about-right reveal" style={{ transitionDelay: '.15s' }}>
             <div className="about-body">
               <p>Hello! I'm a 4th Year Computer Science student at Michigan State University. I build systems that make complex, data-driven tasks more intuitive by combining technical depth with human-centered design.</p>
-              <p>My background is in software engineering and machine learning. I enjoy building real time data pipelines, backend systems, scalable APIs, and distributed systems. I care about writing code that is both efficient and understandable; systems that are as thoughtful as they are fast. I value clarity over cleverness, and robustness over quick wins.</p>
+              <p>I enjoy building real time data pipelines, backend systems, scalable APIs, and distributed systems. I care about writing code that is both efficient and understandable; systems that are as thoughtful as they are fast. I value clarity over cleverness, and robustness over quick wins.</p>
               <p>My research focuses on probabilistic AI and its applications in complex adaptive systems, such as financial markets. I'm drawn to markets because they are high noise, high stakes environments where things rarely behave as expected. To me, their unpredictability is exactly what makes them worth studying.</p>
-              <p>Outside of engineering, I'm a novice tennis player. I enjoy traveling, photography, art, music, and a good hike. Photography, like engineering, is an exercise in attention. It sharpens my eye for detail, helping me notice patterns and small moments that often make the biggest difference. A small collage of moments I've captured is at the bottom of this page :)</p>
+              <p>Outside of engineering, I play tennis badly, travel, and take photographs. Photography taught me that engineering and art aren't opposites; both require obsessive attention, pattern recognition, and a balance of technical skill with intuition. The best systems feel effortless because someone spent weeks making them simple.</p>
             </div>
           </div>
         </div>
@@ -239,12 +307,13 @@ export default function App() {
             <div className="exp-content">
               <div className="exp-role">Undergraduate Research Assistant</div>
               <ul className="exp-bullets">
-                <li>Improved out-of-distribution generalization by 20–55% across 7 benchmark datasets by building a Bayesian-LLM pipeline that generates informative priors for logistic regression models.</li>
+                <li>Improving out-of-distribution generalization across 7 benchmark datasets by building a Bayesian-LLM pipeline that generates informative priors for logistic regression models.</li>
               </ul>
               <div className="exp-tags">
                 <span className="tag">PyMC</span><span className="tag">scikit-learn</span>
                 <span className="tag">SciPy</span><span className="tag">OpenAI</span>
                 <span className="tag">Bayesian ML</span>
+                <span className="tag">Deep Learning</span>
               </div>
             </div>
           </div>
@@ -318,13 +387,17 @@ export default function App() {
               key={project.num}
               className="project-card reveal"
               style={project.delay ? { transitionDelay: project.delay } : undefined}
+              onClick={() => setExpandedProject(expandedProject?.num === project.num ? null : project)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setExpandedProject(expandedProject?.num === project.num ? null : project); }}
             >
               <div className="project-inner">
                 <div className="project-num">{project.num}</div>
                 <div className="project-title">{project.title}</div>
                 <div className="project-desc">{project.desc}</div>
                 <div className="project-stack">{project.stack}</div>
-                <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer">
+                <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                   {project.cta}
                 </a>
               </div>
@@ -387,56 +460,71 @@ export default function App() {
         </div>
       </section>
 
-      {/* Photography */}
-      <section id="photography">
-        <div className="section-header reveal">
-          <span className="section-num" aria-hidden="true">05</span>
-          <h2 className="section-title">Through the <em>Lens</em></h2>
-        </div>
-
-        <p className="photo-note reveal">
-          Landscapes, light, and quiet human moments — collected along the way.
-        </p>
-
-        {photos.length === 0 && (
+      {/* Project Modal Overlay */}
+      {expandedProject && (
+        <div
+          className="project-modal-overlay"
+          onClick={() => setExpandedProject(null)}
+          onKeyDown={(e) => { if (e.key === 'Escape') setExpandedProject(null); }}
+          role="button"
+          tabIndex={0}
+        >
           <div
-            className="photo-upload-zone reveal"
-            id="upload-zone"
-            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-            onDragLeave={() => setIsDragging(false)}
-            onDrop={onDrop}
-            style={isDragging ? { borderColor: 'var(--accent)' } : undefined}
+            className="project-modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-label={`Details for ${expandedProject.title}`}
           >
-            <input type="file" id="photo-input" accept="image/*" multiple onChange={onInputChange} />
-            <div className="upload-label">
-              <span>Drop photographs here</span>
-              Click to select images from your device
+            <button
+              className="modal-close"
+              onClick={() => setExpandedProject(null)}
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+            <div className="modal-header">
+              <div className="modal-num">{expandedProject.num}</div>
+              <h2 className="modal-title">{expandedProject.title}</h2>
+            </div>
+            <div className="modal-content">
+              <div className="modal-section">
+                <h3 className="modal-section-title">The Problem</h3>
+                <p className="modal-section-text">{expandedProject.problem}</p>
+              </div>
+              <div className="modal-section">
+                <h3 className="modal-section-title">Key Metrics</h3>
+                <ul className="modal-metrics">
+                  {expandedProject.metrics.map((metric, i) => (
+                    <li key={i}>{metric}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="modal-section">
+                <h3 className="modal-section-title">What I Learned</h3>
+                <ul className="modal-lessons">
+                  {expandedProject.lessons.map((lesson, i) => (
+                    <li key={i}>{lesson}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="modal-footer">
+                <a href={expandedProject.link} className="modal-cta" target="_blank" rel="noopener noreferrer">
+                  View on GitHub ↗
+                </a>
+              </div>
             </div>
           </div>
-        )}
-
-        <div className="photo-masonry" id="photo-masonry">
-          {photos.map((photo) => (
-            <div
-              key={photo.id}
-              className="photo-masonry-item"
-              onClick={() => setLightboxSrc(photo.src)}
-            >
-              <img src={photo.src} alt={photo.alt} loading="lazy" />
-              <div className="photo-caption">{photo.alt}</div>
-            </div>
-          ))}
         </div>
-      </section>
+      )}
 
       {/* Footer */}
       <footer>
-        <span className="footer-name"><em>Rayansh Singh</em> — MSU Computer Science</span>
+        <span className="footer-name"><em>Rayansh Singh</em> - MSU Computer Science</span>
         <ul className="footer-links">
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">LinkedIn</a></li>
-          <li><a href="#">Resume</a></li>
-          <li><a href="mailto:your@email.com">Email</a></li>
+          <li><a href="https://github.com/ray-singh" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/rayansh-singh" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="#resume" target="_blank" rel="noopener noreferrer">Resume</a></li>
+          <li><a href="mailto:singhr26@msu.edu">Email</a></li>
         </ul>
       </footer>
     </>

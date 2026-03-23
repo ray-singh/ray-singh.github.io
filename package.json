@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:photos": "node scripts/generate-photo-manifest.cjs",
+    "prebuild": "node scripts/generate-photo-manifest.cjs",
+    "predev": "node scripts/generate-photo-manifest.cjs"
   },
   "dependencies": {
     "react": "^18.3.1",
