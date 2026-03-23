@@ -4,9 +4,9 @@
 :root {
   --paper:      #f5f7fb;
   --paper-dark: #e9eef6;
-  --carbon:     #0b1b2b;
-  --carbon-mid: #27445f;
-  --carbon-lt:  #567892;
+  --carbon:     #112733;
+  --carbon-mid: #33586f;
+  --carbon-lt:  #6b90a8;
   --rule-color: rgba(11,27,43,.12);
   --accent:     #2e5f8f;
   --accent-dim: rgba(46,95,143,.12);
@@ -336,7 +336,7 @@ section {
 }
 .about-facts li {
   display: flex; justify-content: space-between; align-items: baseline;
-  font-size: .59rem;
+  font-size: .75rem;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--carbon-lt);

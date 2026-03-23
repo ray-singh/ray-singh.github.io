@@ -36,7 +36,9 @@ export default function App() {
         desc: 'Task-orchestration engine coordinating 50+ concurrent AI agents via Redis-backed state machines. Lua scripts ensure atomicity in task-claiming; incremental LangGraph checkpoints cut mean recovery time from ~70s to ~8s.',
         stack: 'Python · Redis · LangGraph · Lua · FastAPI · React',
         cta: 'GitHub ↗',
+        website: 'Website ↗',
         link: 'https://github.com/ray-singh/Sentinel-Node-Orchestrator',
+        web_link: 'https://sentinel-indol-nine.vercel.app/',
         problem: 'Coordinating dozens of AI agents concurrently without causing deadlocks, lost updates, or cascading failures. Traditional queue systems struggled with agents claiming tasks only to fail mid-execution, requiring complex rollback mechanisms.',
         metrics: ['70s → 8s mean recovery time (11x faster)', '50+ concurrent agents stable', 'Lua atomicity: 0% race condition incidents', '<50ms task-claim latency at peak load'],
         lessons: ['Lua script atomicity is essential when Redis is your source of truth', 'Incremental checkpoints beat full-state snapshots for large agent systems', 'Separating task claiming from execution prevents orphaned work']
@@ -59,8 +61,10 @@ export default function App() {
         desc: 'Market regime detection using Hidden Markov Models to shift statistical arbitrage strategies dynamically. Built with a modular pipeline for real-time signal generation and backtesting.',
         stack: 'HMM · PyArrow · NumPy · Flask · React',
         cta: 'GitHub ↗',
+        website: 'Website ↗',
         delay: '.2s',
         link: 'https://github.com/ray-singh/regime-adaptive-stat-arb',
+        web_link: 'https://regime-pairs.vercel.app/',
         problem: 'Traditional statistical arbitrage strategies assume markets are stationary; that relationships between assets remain constant. In reality, markets shift between distinct regimes (bull markets, crashes, volatile periods). A pairs trading strategy that works in calm conditions fails spectacularly during volatile regimes. Single-regime strategies leave money on the table or blow up capital.',
         metrics: ['4 distinct market regimes detected via unsupervised HMM', '35% Sharpe ratio improvement in regime-aware backtest vs static strategy', '<150ms inference latency for real-time regime prediction'],
         lessons: ['Hidden Markov Models elegantly capture regime transitions with minimal parameters', 'Backtesting must penalize regime-transition costs; paper profits vanish with slippage', 'Regime memory (lookback window) matters more than model complexity']
@@ -71,10 +75,12 @@ export default function App() {
         desc: 'Full-stack system powered by a LangGraph-based AI Agent with 11 specialized tools for automating SQL generation and bank statement analysis, achieving 93% task completion on an internal held-out benchmark of 150 real-world queries. Grew weekly active users from 5 to 60+ by implementing a RAG pipeline with PGVector for semantic transaction search and context-aware interaction.',
         stack: 'Next.js · TypeScript · OpenAI API · PostgreSQL · DrizzleORM · Clerk · LangGraph · PGVector',
         cta: 'GitHub ↗',
+        website: 'Website ↗',
         delay: '.3s',
         link: 'https://github.com/ray-singh/FinMind',
+        web_link: 'https://finmind-seven.vercel.app/',
         problem: 'Non-technical users struggle to query banking data; SQL requires expertise. Natural language queries are ambiguous—users don\'t know if they want transactions, balances, or forecasts. LLMs hallucinate; banking demands accuracy.',
-        metrics: ['93% task completion on 150-query benchmark', 'WAU growth: 5 → 60+ users in 8 weeks', '<2s response latency for complex queries', '11 specialized tools (balance, forecast, anomaly, etc.)'],
+        metrics: ['93% task completion on 150-query benchmark', 'WAU growth: 5 → 60+ users in 8 weeks', '<5s response latency for complex queries', '11 specialized tools (balance, forecast, anomaly, etc.)'],
         lessons: ['Tool calling is more reliable than zero-shot SQL generation; agents learn which tool fits each query', 'PGVector semantic search (RAG) catches ambiguous references; "recent transfers" is now unambiguous', 'User feedback loops (logging rejections) drive rapid iteration on tool definitions']
       }
     ],
@@ -220,7 +226,6 @@ export default function App() {
           <li><a href="#experience">Experience</a></li>
           <li><a href="#projects">Work</a></li>
           <li><a href="#skills">Skills</a></li>
-          <li><a href="#photography">Lens</a></li>
         </ul>
       </nav>
 
@@ -400,6 +405,19 @@ export default function App() {
                 <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                   {project.cta}
                 </a>
+                {project.website && project.web_link ? (
+                  <a
+                    href={project.web_link}
+                    className="project-link project-website"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {project.website}
+                  </a>
+                ) : project.website ? (
+                  <span className="project-link project-website">{project.website}</span>
+                ) : null}
               </div>
             </div>
           ))}
