@@ -530,6 +530,9 @@ section {
   transition: color .4s, border-color .4s;
 }
 
+/* Space between primary project link (GitHub) and optional website link */
+.project-link.project-website { margin-left: 1rem; }
+
 .project-card { cursor: pointer; }
 
 /* ── PROJECT MODAL ──────────────────────────────────────── */
@@ -567,6 +570,20 @@ section {
   padding: .5rem;
 }
 .modal-close:hover { color: var(--carbon); }
+
+.modal-close-bottom {
+  display: none;
+  background: var(--carbon);
+  color: var(--paper);
+  border: none;
+  border-radius: 8px;
+  padding: .8rem 1rem;
+  font-size: .95rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.modal-close-bottom:hover { opacity: .95; }
 
 .modal-header {
   margin-bottom: 2.5rem;
@@ -888,6 +905,17 @@ section {
   .modal-title { font-size: 1.2rem; }
   .modal-section-title { font-size: .95rem; }
   .modal-close { font-size: 1.2rem; }
+  .modal-close {
+    padding: .6rem;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  .modal-close-bottom {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 1rem;
+  }
 }
 
 /* ── FOOTER ─────────────────────────────────────────────── */

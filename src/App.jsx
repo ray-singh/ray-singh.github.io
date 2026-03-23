@@ -529,6 +529,13 @@ export default function App() {
                 <a href={expandedProject.link} className="modal-cta" target="_blank" rel="noopener noreferrer">
                   View on GitHub ↗
                 </a>
+                <button
+                  type="button"
+                  className="modal-close-bottom"
+                  onClick={() => setExpandedProject(null)}
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>
