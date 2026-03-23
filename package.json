@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "generate:photos": "node scripts/generate-photo-manifest.cjs",
     "prebuild": "node scripts/generate-photo-manifest.cjs",
-    "predev": "node scripts/generate-photo-manifest.cjs"
+    "predev": "node scripts/generate-photo-manifest.cjs",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.3.1",
