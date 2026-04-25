@@ -233,14 +233,9 @@ export default function App() {
       <section id="hero">
         <div className="hero-content">
           <div className="hero-left">
-            <p className="hero-eyebrow">Computer Science · Applied Mathematics · Cognitive Science</p>
             <h1 className="hero-name">
               From data to decisions,<br />with <em>clarity & care</em>
             </h1>
-            <p className="hero-tagline">
-              I'm drawn to projects where theory meets practice, and the real test
-              is whether the system can handle unpredictability.
-            </p>
           </div>
 
           <div className="hero-right">
