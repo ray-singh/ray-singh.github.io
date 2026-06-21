@@ -160,23 +160,22 @@ const APPS_GRID = [
 ];
 
 const SONGS = [
-  { title: 'How to Disappear', artist: 'Lana Del Rey', duration: '4:26', color: '#9D4E6E', cover: '/covers/lana.jpg' },
-  { title: 'Belinda Says', artist: 'Alvvays', duration: '3:25', color: '#4169A8', cover: '/covers/alvvays.jpg' },
-  { title: 'Cobra', artist: 'Geese', duration: '4:28', color: '#2D5A27', cover: '/covers/geese.jpg' },
-  { title: 'Nights', artist: 'Frank Ocean', duration: '5:07', color: '#4338CA', cover: '/covers/blonde.jpeg' },
-  { title: 'Gosh', artist: 'Jamie xx', duration: '6:37', color: '#D97706', cover: '/covers/jamie.svg' },
-  { title: "Gideon's Bible", artist: 'John Cale', duration: '3:48', color: '#4B5563', cover: '/covers/cale.jpg' },
-  { title: 'detonate', artist: 'Charli XCX', duration: '2:17', color: '#4D7C0F', cover: '/covers/charli.png' },
-  { title: 'Fashion Killa', artist: 'ASAP Rocky', duration: '3:36', color: '#7C3AED', cover: '/covers/asap.jpg' },
-  { title: 'Dance Yrself Clean', artist: 'LCD Soundsystem', duration: '8:38', color: '#EA580C', cover: '/covers/lcd.jpg' },
-  { title: 'Best to You', artist: 'Blood Orange', duration: '3:47', color: '#B91C1C', cover: '/covers/Freetown_Sound_Cover.jpg' },
-  { title: 'Hot n Cold', artist: 'Katy Perry', duration: '3:22', color: '#1D4ED8', cover: '/covers/katy.png' },
+  { title: 'How to Disappear', artist: 'Lana Del Rey', color: '#9D4E6E', cover: '/covers/lana.jpg', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'Hello, Goodbye', artist: 'The Beatles', color: '#9D4E6E', cover: '/covers/beatles.jpg', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'Cobra', artist: 'Geese', color: '#2D5A27', cover: '/covers/geese.jpg', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'Belinda Says', artist: 'Alvvays', color: '#4169A8', cover: '/covers/alvvays.jpg', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'i finally understand', artist: 'Charli XCX', color: '#4D7C0F', cover: '/covers/charli.png', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'minipops 67 [120.2][source field mix]', artist: 'Aphex Twin', color: '#4D7C0F', cover: '/covers/aphex.jpg', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'Nights', artist: 'Frank Ocean', color: '#D97706', cover: '/covers/blonde.jpeg', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'Meat Grinder', artist: 'Madvillainy', color: '#7C3AED', cover: '/covers/mad.png', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'Someone Great', artist: 'LCD Soundsystem', color: '#EA580C', cover:'/covers/lcd.jpg', link: 'https://www.youtube.com/watch?v=Hh9yZlJb9nU' },
+  { title: 'Theme from New York, New York', artist:'Fraank Sinatra', color:'#EA580C', cover:'/covers/sinatra.jpg', link:'https://www.youtube.com/watch?v=Hh9yZlJb9nU'}
 ];
 
 const DOCK_APPS = [
-  { id: 'notes',    name: 'About' },
+  { id: 'notes', name: 'About' },
   { id: 'calendar', name: 'Experience' },
-  { id: 'files',    name: 'Projects' },
+  { id: 'files', name: 'Projects' },
   { id: 'settings', name: 'Skills' },
 ];
 
