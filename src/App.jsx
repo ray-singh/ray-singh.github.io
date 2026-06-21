@@ -251,6 +251,20 @@ const EXPERIENCE = [
 ];
 
 const PROJECTS = [
+    {
+    name: 'Multi-Tenant LLM Inference Server',
+    type: 'C++ · llama.cpp · Redis · gRPC · Kubernetes',
+    color: '#5AC8FA',
+    desc: 'Production-grade LLM inference server written in C++ that serves multiple tenants from a single binary. Continuous batching across 16 concurrent sequences in a shared KV cache squeezes 27% more throughput out of the same hardware compared to naive FIFO scheduling. Exposes both an OpenAI-compatible REST API and a gRPC service, with Redis-backed token buckets enforcing per-tenant rate limits across horizontally-scaled nodes.',
+    problem: 'Most open-source inference servers are Python-heavy, which puts interpreter overhead directly on the critical path. FIFO scheduling makes the problem worse — a single long generation blocks every short request behind it, and there is no concept of per-tenant fairness or urgency. In a shared environment, one runaway client can saturate the server while everyone else queues.',
+    learned: [
+      'Continuous batching with a shared KV cache eliminates the GPU idle time caused by padding in static batches — throughput gains compound as concurrency rises',
+      'Redis token buckets give you distributed rate limiting with negligible overhead; without them, coordinating fairness across nodes means either a central bottleneck or silently inconsistent limits',
+      'Exposing REST and gRPC from the same binary forces a single canonical API model, which kills a whole class of interface-drift bugs before they can form',
+    ],
+    metrics: ['27% throughput vs FIFO', '16 concurrent sequences', '3-tier priority scheduling', 'OpenAI-compatible REST + gRPC', 'Kubernetes autoscaling'],
+    link: 'https://github.com/ray-singh/Adaptive-Multi-Tenant-Inference-Server',
+  },
   {
     name: 'BTC Volatility Forecasting',
     type: 'PyTorch · LightGBM · FastAPI · GCP',
@@ -471,7 +485,7 @@ function NotesApp({ onClose }) {
         <h1 className="notes-title">About Me</h1>
 
         <div className="notes-body">
-          <p>Hello! I’m Rayansh, a soon-to-be CS grad passionate about ML systems, tools, and infra. </p>
+          <p>Hello! I’m Rayansh, a soon-to-be CS grad passionate about ML systems, tools, and infrastructure. </p>
           <p>My work experience spans tech consulting, insurance, fintech, and research. Though domains and constraints may vary, I focus on finding a hard problem, understanding it well, and building solutions that last. In my current role as an AI Engineering Intern at Delta Dental, I’m developing an agentic license verification system projected to save ~$1M/yr in external vendor costs.</p>
           <p>Machine learning caught my eye because it felt like magic. As I learned more, the magic faded but my curiosity grew, eventually leading me to my role as an undergrad ML researcher. The question I find myself asking often is ‘how do we build systems capable of making decisions when the world is noisy and constantly changing?’.</p>
           <p>What excites me most is taking models out of notebooks or papers and turning them into intelligent systems that people can use reliably. Whether I'm building data pipelines, agentic applications, or ML infrastructure, I'm drawn to problems that require both careful thinking and practical execution.</p>
