@@ -1,6 +1,6 @@
 # Rayansh Singh Portfolio (Vite + React)
 
-This project has been converted from a static HTML/CSS/JS site to a Vite + React app.
+A single-page portfolio built with Vite + React and deployed to GitHub Pages on every push to `main`.
 
 ## Run locally
 
@@ -17,5 +17,6 @@ npm run preview
 ```
 
 ## Notes
-- Core styling is in `src/styles.css`.
-- App structure and behavior is implemented in `src/App.jsx`.
+- Content (experience, projects, skills, leadership, songs) lives in `src/content.js`.
+- Layout is in `src/App.jsx`, styling in `src/styles.css`. The design follows a type-specimen layout: bordered frame, mono bars, 6-column grid with ruled labels.
+- Each project has a `plate` config in `content.js` that controls its illustrated panel (background, headline number, clay texture, caption).
