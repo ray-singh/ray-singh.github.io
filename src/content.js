@@ -31,16 +31,16 @@ export const EXPERIENCE = [
     period: 'May – Sep 2026',
     items: [
       {
-        problem: 'Knowledge was spread across 300+ SAS assets, and finding the right one could take days.',
-        solution: 'Built an enterprise RAG platform with LangGraph, FastAPI, Oracle Vector DB, and LLMs for natural-language search over those assets.',
-        outcome: '2,500+ users got natural-language access, and multi-day discovery dropped to sub-2-second retrieval. Retrieval precision reached 94% on an analyst-curated evaluation set.',
-        learned: 'Retrieval quality is decided by the evaluation set. Building one with analysts and measuring against it did more for precision than swapping models.',
+        problem: 'Non-technical users could not find the right report among 300+ dense SAS assets.',
+        solution: 'Built and deployed an enterprise RAG platform on LangGraph, FastAPI, and Oracle Vector DB for natural-language search over those assets.',
+        outcome: '2,500+ users gained natural-language access. Discovery fell from days to under 2 seconds, with 94% retrieval precision on an analyst-curated evaluation set.',
+        learned: 'Tool-calling agents in production are a distributed-systems problem. They need cloud storage, caching, multi-pod deployment, traceability, fault tolerance, etc. It is easy to prototype them on localhost, but deploying them requires careful systems thinking.',
       },
       {
-        problem: 'An 11-person team was limited by how much credential verification they could handle.',
-        solution: 'Co-developed an autonomous credential verification workflow with Azure AI Foundry, tool-calling agents, and Playwright.',
-        outcome: 'The team absorbed 30% more volume.',
-        learned: 'Agents that drive a browser fail in small ways, so the workflow needs checks and a clear path back to a person.',
+        problem: 'An 11-person compliance team was struggling to keep up with the volume of dentists being added to the DD network.',
+        solution: 'Co-developed an autonomous credential verification workflow using Azure AI Foundry tool-calling agents and Playwright.',
+        outcome: 'The team absorbed 30% more volume. Developed an in-house solution instead of paying an external vendor.',
+        learned: 'Browser-driving agents fail in small ways, so the workflow needs checks and a clear handoff to a human.',
       },
     ],
     tags: ['LangGraph', 'FastAPI', 'Oracle Vector DB', 'Azure AI Foundry', 'Playwright', 'Python'],
@@ -53,15 +53,15 @@ export const EXPERIENCE = [
     period: 'Jan – May 2026',
     items: [
       {
-        problem: 'A 6-person capstone team building a blockchain-settled P2P payments app needed a reproducible environment.',
-        solution: 'Owned the infrastructure layer and delivered a containerized 4-service Docker environment with automated CI/CD.',
-        outcome: 'The whole stack ran in containers with automated CI/CD.',
-        learned: 'Setting up CI/CD early makes every later change cheaper to ship.',
+        problem: 'Our 6-person capstone team, building a blockchain-settled P2P payments app, needed an environment every member could reproduce.',
+        solution: 'Owned the infrastructure layer: a containerized 4-service Docker environment with automated CI/CD.',
+        outcome: 'The full stack ran reproducibly in containers, with CI/CD automating delivery.',
+        learned: 'Setting up CI/CD early makes every later change cheaper to ship :)',
       },
       {
         problem: 'Ethereum settlement state had to stay consistent with the application database.',
         solution: 'Implemented an event-driven reconciliation layer in Python that synchronizes Ethereum settlement state with Postgres.',
-        outcome: 'The schema stays consistent across async transaction states.',
+        outcome: 'Database state stays consistent with Ethereum settlement across every async transaction state.',
         learned: 'Chain state and database state are two sources of truth, so the schema has to model every in-between state instead of assuming transactions are atomic.',
       },
     ],
@@ -76,9 +76,9 @@ export const EXPERIENCE = [
     period: 'Jan – Aug 2026',
     items: [
       {
-      problem: 'Risk-aware decision systems need to know when an LLM\'s confidence can be trusted. Testing that across 80K+ headlines and 9 open-weight models was slow.',
-      solution: 'Evaluated calibrated LLM confidence for risk-aware decision systems, and optimized the inference pipeline with quantization, vLLM, and data parallelism across multiple CUDA GPUs.',
-      outcome: 'A 3× speedup in LLM experiments, which made it practical to run the full set of models and headlines.',
+      problem: 'Risk-aware decision systems need to know when an LLM\'s confidence can be trusted, but testing that across 80K+ headlines and 9 open-weight models was too slow.',
+      solution: 'Evaluated calibrated LLM confidence for risk-aware decision systems and sped up the inference pipeline with quantization, vLLM, and data parallelism across multiple CUDA GPUs.',
+      outcome: 'LLM experiments ran 3× faster, which made it practical to run every model on the full set of headlines.',
       learned: 'Inference throughput limits how many questions you can ask. A faster pipeline meant more experiments, and that mattered more than any single result.',
       },
     ],
@@ -92,13 +92,13 @@ export const EXPERIENCE = [
     period: 'May – Dec 2025',
     items: [
       {
-        problem: 'Dental plan modifications were processed by hand and took about 1.5 hours each.',
-        solution: 'Architected a full-stack platform for plan modifications.',
-        outcome: 'Processing time fell 98% (1.5 hours to 45 seconds) for 150+ internal users.',
+        problem: 'Underwriters had to ask a developer to change an insurance plan. The developer would dig through a deeply nested Mongo document, find the field, and edit the value by hand.',
+        solution: 'Architected a full-stack platform that lets underwriters modify plans directly.',
+        outcome: 'Processing time fell 98% (~1.5 hours to 45 seconds) for 150+ internal users across 7 states.',
         learned: 'Automating a manual process starts with writing down what the people doing it actually do.',
       },
       {
-        problem: 'The REST API behind the platform made redundant database calls.',
+        problem: 'Edited plans reappeared in their old form after a page refresh because the API\'s cache was never invalidated.',
         solution: 'Refactored a Java REST API with cache invalidation logic.',
         outcome: 'Redundant database calls dropped 60%.',
         learned: 'Caching is easy to add and hard to invalidate. Most of the gain came from deciding when cached data stops being true.',
@@ -122,9 +122,15 @@ export const EXPERIENCE = [
     items: [
       {
       problem: 'More than 500K records a week had to be ingested and transformed reliably, without someone running it by hand.',
-      solution: 'Constructed an ETL pipeline with AWS Glue and PySpark for automated ingestion and transformation.',
+      solution: 'Worked with engineers to construct an ETL pipeline with AWS Glue and PySpark for automated ingestion and transformation.',
       outcome: 'Automated handling of 500K+ records per week.',
       learned: 'My first look at data work at scale. Pipelines are mostly about the messy cases, not the happy path.',
+      },
+      {
+      problem: 'The firm wanted an in-house, reusable data architecture that clients across the retail industry could adopt.',
+      solution: 'Researched retail logistics and competitor offerings, then designed an architecture that consolidates inventory, shipping, e-commerce, and physical store data into one consistent model.',
+      outcome: 'Gave the firm a single reusable model that retail clients could plug their separate data sources into.',
+      learned: 'Consolidating sources is less about moving data than agreeing on what an order or a unit of stock means in each system. Working under two MDs and a consultant showed me that consulting is the same translation, from messy client reality to something a team can reuse.',
       },
     ],
     tags: ['AWS Glue', 'PySpark', 'ETL'],
@@ -150,7 +156,6 @@ export const EXPERIENCE = [
 export const EDUCATION = {
   school: 'Michigan State University',
   degree: 'B.S. Computer Science, Minor in Applied Math',
-  detail: 'GPA 3.81/4.0',
   date: 'August 2026',
 };
 
@@ -204,7 +209,7 @@ export const PROJECTS = [
   {
     name: 'OpenBB CME Data Provider',
     stack: 'Python · Pydantic · asyncio · pytest',
-    desc: 'An open-source pull request to OpenBB that adds a CME data provider. It was closed without merging because its target branch was deleted. Automated metadata discovery and asynchronous REST ingestion give access to 3,700+ instruments. Pooled HTTP sessions and a cache fallback keep it reliable, backed by 45 unit and integration tests across the API, metadata, and provider components.',
+    desc: 'PR to OpenBB that adds a CME data provider. Closed without merging because its target branch was deleted. Automated metadata discovery and asynchronous REST ingestion give access to 3,700+ instruments. Pooled HTTP sessions and a cache fallback keep it reliable, backed by 45 unit and integration tests across the API, metadata, and provider components.',
     metrics: ['3,700+ instruments', 'Async REST ingestion', '45 unit + integration tests', 'PR closed unmerged (target branch deleted)'],
     link: 'https://github.com/ray-singh',
     linkLabel: 'GitHub profile',
@@ -213,12 +218,11 @@ export const PROJECTS = [
   {
     name: 'Adaptive Multi-Tenant LLM Inference Server',
     stack: 'C++ · llama.cpp · gRPC · Redis · Docker · Kubernetes · CMake',
-    desc: 'A C++ LLM inference server on llama.cpp with continuous batching and KV-cache reuse, increasing throughput by 27% over FIFO scheduling at 16 concurrent sequences on Apple Silicon. Rate limiting, priority scheduling, and request deadlines are distributed across horizontally scaled workers via Redis. It exposes an OpenAI-compatible REST API and a gRPC service.',
+    desc: 'A C++ LLM inference server on llama.cpp with continuous batching and KV-cache reuse, increasing throughput by 27% over FIFO scheduling at 16 concurrent sequences on Apple Silicon. Rate limiting, priority scheduling, and request deadlines are distributed across horizontally scaled workers via Redis. OpenAI-compatible REST API and a gRPC service.',
     problem: 'Most open-source inference servers are Python-heavy, which puts interpreter overhead on the critical path. FIFO scheduling makes it worse: one long generation blocks every short request behind it, and there is no notion of per-tenant fairness. In a shared environment, one runaway client can saturate the server while everyone else queues.',
     learned: [
       'Continuous batching with a shared KV cache removes the GPU idle time caused by padding in static batches, and the gains compound as concurrency rises.',
       'Redis token buckets give distributed rate limiting with negligible overhead. Without them, fairness across nodes means a central bottleneck or inconsistent limits.',
-      'Serving REST and gRPC from one binary forces a single canonical API model, which prevents interface drift.',
     ],
     metrics: ['27% throughput vs FIFO', '16 concurrent sequences on Apple Silicon', '3-tier priority scheduling', 'OpenAI-compatible REST + gRPC', 'Kubernetes autoscaling'],
     link: 'https://github.com/ray-singh/Adaptive-Multi-Tenant-Inference-Server',
@@ -240,14 +244,13 @@ export const PROJECTS = [
     figure: '8s',
   },
   {
-    name: 'BTC Volatility Forecasting',
+    name: 'Short-Term Liquidity & Volatility Forecasting',
     stack: 'PyTorch · LightGBM · FastAPI · GCP',
     desc: "A volatility forecaster and liquidity shock detector built on 50+ Level-2 orderbook features (OFI, spread, depth imbalances) that price history alone can't see. LightGBM beat HAR-RV by 45% RMSE and was tested against Transformers and TCNs with full MLflow tracking. Served from GCP Cloud Run at ~8k req/sec with a Streamlit dashboard for live inference and feature ablation.",
     problem: 'HAR-RV is built entirely on price history, so it is blind to liquidity crises forming in the orderbook before price moves. Crypto markets are also non-stationary, so naive train/test splits leak the future into training and make everything look better than it is.',
     learned: [
-      'Orderbook features outpredict price-derived signals. Microstructure sees pressure before price reacts.',
       'One model can jointly optimize regression and classification without degrading either, as long as the tasks share signal.',
-      'Strict chronological holdouts are non-negotiable in financial ML. Random splits produce optimistic metrics.',
+      'Strict chronological holdouts are non-negotiable. Random splits produce optimistic metrics.',
     ],
     metrics: ['45% RMSE vs HAR-RV', '0.94 AUROC · 0.88 AUPRC', '~8k req/sec · p99 < 0.52ms', '50+ microstructure features', '5 architectures benchmarked'],
     link: 'https://github.com/ray-singh/Volatility-Forecasting',
@@ -258,7 +261,7 @@ export const PROJECTS = [
     name: 'Regime-Adaptive Stat Arb',
     stack: 'HMM · NumPy · Flask · React',
     desc: 'A trading-pair discovery engine over 200 assets that uses Hidden Markov Models to segment 4 market regimes. A vectorized NumPy pre-filter tests 22.5k pairs (85% compute reduction), evaluation runs in batched ThreadPoolExecutor workers, and 3-tier caching (LRU, TTL pickle, MD5-keyed Parquet) brings the React + Flask dashboard to sub-1s runtime.',
-    problem: 'Traditional statistical arbitrage assumes relationships between assets stay constant. Markets actually shift between regimes (bull runs, crashes, volatile periods), and a pairs strategy that works in calm conditions can fail badly in volatile ones.',
+    problem: 'Traditional statistical arbitrage assumes relationships between assets stay constant. Markets shift between regimes, and a pairs strategy that works in calm conditions can fail badly in volatile ones.',
     learned: [
       'Vectorized NumPy pre-filters shrink the cointegration search space by 87% (22.5k to 3k pairs).',
       'Multi-tier caching is essential for sub-second repeated queries.',
@@ -272,14 +275,14 @@ export const PROJECTS = [
   {
     name: 'Personal Finance Agent',
     stack: 'Next.js · LangGraph · OpenAI · pgvector',
-    desc: 'A LangGraph agent with 14 tools for SQL generation, anomaly detection, and vector memory. A RAG pipeline with OpenAI embeddings and pgvector powers semantic transaction search, context-aware chat, and persistent memory. It passes 96% of a 100-query real-world benchmark and grew from 5 to 60+ weekly active users.',
+    desc: 'A LangGraph agent with 14 tools for SQL generation, anomaly detection, and vector memory. A RAG pipeline with OpenAI embeddings and pgvector powers semantic transaction search, context-aware chat, and persistent memory. It passes 96% of a 100-query real-world benchmark and supported 60+ active users.',
     problem: "Personal finance apps lack assistants that understand transaction context. Users need both semantic search ('show me unusual spending') and structured queries ('total by category'), with continuity across sessions.",
     learned: [
       'pgvector outperforms naive text search by 4x on financial queries.',
       'Composing tools in LangGraph beats monolithic agents for finance use cases.',
       'Persistent memory turns one-off queries into multi-turn insights.',
     ],
-    metrics: ['96% benchmark pass rate', '14 specialized tools', '5 → 60 weekly users', '<3s semantic search'],
+    metrics: ['96% benchmark pass rate', '14 specialized tools', '<3s semantic search'],
     link: 'https://github.com/ray-singh/FinMind',
     webLink: 'https://finmind-seven.vercel.app/',
     figure: '96%',
