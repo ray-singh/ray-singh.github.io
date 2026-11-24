@@ -282,6 +282,7 @@ mark { background: var(--highlight); color: var(--ink); }
   scroll-margin-top: 52px;
 }
 .coda-inner { max-width: 900px; margin: 0 auto; font-size: clamp(15px, 1.4vw, 20px); line-height: 1.55; }
+.credit { margin-top: 56px; font: 12px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .02em; }
 .coda-inner .small-head { font-weight: 600; margin-bottom: 0; }
 
 /* ── Responsive ──────────────────────────────────────────────────────── */

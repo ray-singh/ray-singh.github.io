@@ -293,6 +293,9 @@ export default function App() {
               <div>
                 <a href={LINKS.email}>singhr26@msu.edu</a> · <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href={LINKS.github} target="_blank" rel="noopener noreferrer">GitHub</a>
               </div>
+              <p className="credit">
+                Design inspired by template D400 from <a href="https://cargo.site" target="_blank" rel="noopener noreferrer">Cargo</a>.
+              </p>
             </div>
           </section>
         </main>
