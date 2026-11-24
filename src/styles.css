@@ -77,15 +77,16 @@ mark { background: var(--highlight); color: var(--ink); }
 /* ── Hollow display type: white fill, royal blue outline ───────────────────── */
 /* paint-order draws the stroke first so only its outer half shows, which
    keeps the outline clean where variable-font contours overlap. */
-.hero, .manifesto h2 {
+.manifesto h2 {
   color: #fff;
-  -webkit-text-stroke: 0.035em var(--royal);
+  -webkit-text-stroke: 0.06em var(--royal);
   paint-order: stroke fill;
+  font-weight: 500;
 }
-.manifesto h2 { -webkit-text-stroke-width: 0.06em; font-weight: 500; }
 
 /* ── Hero ────────────────────────────────────────────────────────────── */
 .hero {
+  color: var(--royal);
   margin: 0;
   display: flex;
   align-items: center;
